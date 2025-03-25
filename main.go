@@ -12,7 +12,7 @@ const (
 	RANDID_LENGTH  = 16
 )
 
-type TheItem interface {
+type Blueprint interface {
 	SetUUID()
 	GetUUID() string
 	SecureUUID()
@@ -28,7 +28,7 @@ type TheItem interface {
 	GetUpdatedAtString() string
 }
 
-type Item struct {
+type Foundation struct {
 	UUID            string    `json:"uuid,omitempty" bson:"uuid"`
 	RandId          string    `json:"randid,omitempty" bson:"randid"`
 	CreatedAt       time.Time `json:"-" bson:"-"`
@@ -37,59 +37,59 @@ type Item struct {
 	UpdatedAtString string    `bson:"updatedat"`
 }
 
-func (i *Item) SetUUID() {
+func (i *Foundation) SetUUID() {
 	i.UUID = uuid.New().String()
 }
 
-func (i *Item) GetUUID() string {
+func (i *Foundation) GetUUID() string {
 	return i.UUID
 }
 
-func (i *Item) SecureUUID() {
+func (i *Foundation) SecureUUID() {
 	i.UUID = ""
 }
 
-func (i *Item) SetRandId() {
+func (i *Foundation) SetRandId() {
 	i.RandId = RandId()
 }
 
-func (i *Item) GetRandId() string {
+func (i *Foundation) GetRandId() string {
 	return i.RandId
 }
 
-func (i *Item) SetCreatedAt(time time.Time) {
+func (i *Foundation) SetCreatedAt(time time.Time) {
 	i.CreatedAt = time
 }
 
-func (i *Item) SetUpdatedAt(time time.Time) {
+func (i *Foundation) SetUpdatedAt(time time.Time) {
 	i.UpdatedAt = time
 }
 
-func (i *Item) GetCreatedAt() time.Time {
+func (i *Foundation) GetCreatedAt() time.Time {
 	return i.CreatedAt
 }
 
-func (i *Item) GetUpdatedAt() time.Time {
+func (i *Foundation) GetUpdatedAt() time.Time {
 	return i.UpdatedAt
 }
 
-func (i *Item) SetCreatedAtString(timeString string) {
+func (i *Foundation) SetCreatedAtString(timeString string) {
 	i.CreatedAtString = timeString
 }
 
-func (i *Item) SetUpdatedAtString(timeString string) {
+func (i *Foundation) SetUpdatedAtString(timeString string) {
 	i.UpdatedAtString = timeString
 }
 
-func (i *Item) GetCreatedAtString() string {
+func (i *Foundation) GetCreatedAtString() string {
 	return i.CreatedAtString
 }
 
-func (i *Item) GetUpdatedAtString() string {
+func (i *Foundation) GetUpdatedAtString() string {
 	return i.UpdatedAtString
 }
 
-func InitItem[T TheItem](item T) {
+func InitItem[T Blueprint](item T) {
 	currentTime := time.Now().In(time.UTC)
 	value := reflect.ValueOf(item).Elem()
 
