@@ -8,8 +8,7 @@ import (
 )
 
 const (
-	FORMATTED_TIME = "2006-01-02T15:04:05.000000000Z"
-	RANDID_LENGTH  = 16
+	RANDID_LENGTH = 16
 )
 
 type Blueprint interface {
@@ -22,19 +21,13 @@ type Blueprint interface {
 	GetCreatedAt() time.Time
 	SetUpdatedAt(time time.Time)
 	GetUpdatedAt() time.Time
-	SetCreatedAtString(timeString string)
-	GetCreatedAtString() string
-	SetUpdatedAtString(timeString string)
-	GetUpdatedAtString() string
 }
 
 type Foundation struct {
-	UUID            string    `json:"uuid,omitempty" bson:"uuid"`
-	RandId          string    `json:"randid,omitempty" bson:"randid"`
-	CreatedAt       time.Time `json:"-" bson:"-"`
-	UpdatedAt       time.Time `json:"-" bson:"-"`
-	CreatedAtString string    `bson:"createdat"`
-	UpdatedAtString string    `bson:"updatedat"`
+	UUID      string    `json:"uuid,omitempty" bson:"uuid"`
+	RandId    string    `json:"randid,omitempty" bson:"randid"`
+	CreatedAt time.Time `json:"-" bson:"-"`
+	UpdatedAt time.Time `json:"-" bson:"-"`
 }
 
 func (i *Foundation) SetUUID() {
@@ -73,22 +66,6 @@ func (i *Foundation) GetUpdatedAt() time.Time {
 	return i.UpdatedAt
 }
 
-func (i *Foundation) SetCreatedAtString(timeString string) {
-	i.CreatedAtString = timeString
-}
-
-func (i *Foundation) SetUpdatedAtString(timeString string) {
-	i.UpdatedAtString = timeString
-}
-
-func (i *Foundation) GetCreatedAtString() string {
-	return i.CreatedAtString
-}
-
-func (i *Foundation) GetUpdatedAtString() string {
-	return i.UpdatedAtString
-}
-
 func InitItem[T Blueprint](item T) {
 	currentTime := time.Now().In(time.UTC)
 	value := reflect.ValueOf(item).Elem()
@@ -108,8 +85,6 @@ func InitItem[T Blueprint](item T) {
 	item.SetRandId()
 	item.SetCreatedAt(currentTime)
 	item.SetUpdatedAt(currentTime)
-	item.SetCreatedAtString(currentTime.Format(FORMATTED_TIME))
-	item.SetUpdatedAtString(currentTime.Format(FORMATTED_TIME))
 }
 
 func RandId() string {
